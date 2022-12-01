@@ -27,7 +27,7 @@ public class SysLogService {
     * @date: 2022/12/1 16:00
     */
     public Page<SysLog> selectPage(int pageNum,int pageSize){
-       return sysLogMapper.selectPage(new Page<>(pageNum,pageSize),new LambdaQueryWrapper<>());
+       return sysLogMapper.selectPage(new Page<>(pageNum,pageSize),new LambdaQueryWrapper<SysLog>().orderByDesc(true,SysLog::getTime));
     }
     /**
     * @description:  插入日志

@@ -1,32 +1,42 @@
 package gaozhi.online.peoplety.log.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import gaozhi.online.base.log.SysLog;
-import gaozhi.online.peoplety.log.mapper.LogMapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import gaozhi.online.peoplety.entity.SysLog;
+import gaozhi.online.peoplety.log.mapper.SysLogMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
- * @author http://gaozhi.online
- * @version 1.0
- * @description: TODO 系统日志服务
- * @date 2022/8/4 21:57
- */
+* @description: TODO 系统日志服务
+* @author http://gaozhi.online
+* @date 2022/12/1 15:57
+* @version 1.0
+*/
 @Service
 public class SysLogService {
     @Resource
-    private LogMapper logMapper;
-
-    public int insert(SysLog sysLog) {
-        return logMapper.insert(sysLog);
+    private SysLogMapper sysLogMapper;
+    /**
+    * @description:  查看日志
+    * @param pageNum
+     * @param pageSize
+     * @return com.baomidou.mybatisplus.extension.plugins.pagination.Page<gaozhi.online.peoplety.entity.SysLog>
+    * @author http://gaozhi.online
+    * @date: 2022/12/1 16:00
+    */
+    public Page<SysLog> selectPage(int pageNum,int pageSize){
+       return sysLogMapper.selectPage(new Page<>(pageNum,pageSize),new LambdaQueryWrapper<>());
     }
-
-    public PageInfo<SysLog> selectAll(long startTime, long endTime, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<SysLog> logs = logMapper.selectAll(startTime, endTime);
-        return new PageInfo<>(logs);
+    /**
+    * @description:  插入日志
+    * @param sysLog
+     * @return gaozhi.online.peoplety.entity.SysLog
+    * @author http://gaozhi.online
+    * @date: 2022/12/1 21:23
+    */
+    public boolean insert(SysLog sysLog) {
+        return sysLogMapper.insert(sysLog)>0;
     }
 }
